@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calcular promedios finales
         Object.keys(countryData).forEach(country => {
             const c = countryData[country];
-            c.avgSleep = (c.sleepSum / c.count).toFixed(1);
-            c.avgProd = (c.prodSum / c.count).toFixed(1);
+            c.avgSleep = (c.sleepSum / c.count).toFixed(2);
+            c.avgProd = (c.prodSum / c.count).toFixed(2);
         });
 
         // 2. Mapear nombres del mapa a los nombres de tu dataset
