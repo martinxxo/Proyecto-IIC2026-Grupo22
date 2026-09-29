@@ -14,7 +14,7 @@ header {
 }
 
 main {
-    max-width: 900px;
+    max-width: 950px;
     margin: 2rem auto;
     padding: 1rem;
     background: white;
@@ -23,13 +23,76 @@ main {
 }
 
 #visualization-container {
-    min-height: 400px;
+    position: relative; /* Muy importante para posicionar el tooltip dentro de esta caja */
     display: flex;
-    align-items: center;
     justify-content: center;
-    border: 1px dashed #ccc;
+    background-color: #e0f3f8; /* Un color suave como el océano */
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ccc;
     margin-bottom: 2rem;
-    background-color: #fafafa;
+}
+
+svg {
+    display: block;
+}
+
+/* Estilos de los países en el mapa */
+.country {
+    fill: #d3d3d3; /* Color por defecto (sin datos) */
+    stroke: #ffffff;
+    stroke-width: 0.5px;
+    transition: fill 0.2s;
+}
+
+/* Países que SÍ tienen datos en el CSV */
+.country.has-data {
+    fill: #4682b4; /* SteelBlue */
+    cursor: pointer;
+}
+
+.country.has-data:hover {
+    fill: #315f86; /* Un poco más oscuro al pasar el ratón */
+}
+
+/* Cuando se mantiene presionado el ratón */
+.country.active {
+    fill: #ff8c00 !important; /* Naranja oscuro */
+    stroke: #333;
+    stroke-width: 1px;
+}
+
+/* Estilos del Tooltip (La ventanita) */
+#tooltip {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #2c3e50;
+    padding: 10px 15px;
+    border-radius: 6px;
+    pointer-events: none; /* Evita que el tooltip interfiera con el mouse del mapa */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    font-size: 0.95rem;
+    transform: translate(-50%, -100%);
+    margin-top: -10px;
+    z-index: 10;
+    min-width: 180px;
+    color: #333;
+}
+
+#tooltip.hidden {
+    display: none;
+}
+
+#tooltip h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+}
+
+#tooltip p {
+    margin: 4px 0;
 }
 
 #controls {
