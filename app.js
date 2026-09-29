@@ -55,6 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const countries = topojson.feature(world, world.objects.countries).features;
 
+        // Escala de color de rojo (baja productividad) a verde (alta)
+        // Ajustamos los valores 50 (rojo), 70 (amarillo) y 90 (verde) según lo que se considere "malo" a "bueno"
+        const colorScale = d3.scaleLinear()
+            .domain([50, 70, 90])
+            .range(["#e74c3c", "#f1c40f", "#2ecc71"]);
+
         // 3. Dibujar el mapa
         const g = svg.append("g");
 
@@ -66,6 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 name = nameMapping[name] || name;
                 // Si el país existe en nuestros datos, le damos la clase 'has-data'
                 return countryData[name] ? "country has-data" : "country";
+            })
+            .style("fill", d => {
+                let name = d.properties.name;
+                name = nameMapping[name] || name;
+                if (countryData[name]) {
+                    return colorScale(countryData[name].avgProd);
+                }
+                return null; // CSS default para sin datos (#d3d3d3)
             })
             .attr("d", path)
             // 4. Configurar interactividad (Mouse Eventos)
@@ -116,6 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }).catch(error => {
         console.error("Error al cargar los datos o el mapa:", error);
+        d3.select("#visualization-container").html(`
+            <div style="padding: 2rem; color: #e74c3c; text-align: center;">
+                <h3>Error al cargar los datos o el mapa</h3>
+                <p>Asegúrate de estar usando un <strong>servidor local</strong> (como Live Server en VSCode o python -m http.server).</p>
+                <p>Si solo hiciste doble clic en el archivo <code>index.html</code>, el navegador bloqueará la carga por motivos de seguridad.</p>
+                <p style="font-size: 0.8rem; color: #666;">Detalle técnico: ${error.message}</p>
+            </div>
+        `);
     });
 
     // Evento del botón para el futuro

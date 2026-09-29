@@ -23,14 +23,11 @@ main {
 }
 
 #visualization-container {
-    position: relative; /* Muy importante para posicionar el tooltip dentro de esta caja */
+    position: relative;
     display: flex;
     justify-content: center;
-    background-color: #e0f3f8; /* Un color suave como el océano */
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #ccc;
     margin-bottom: 2rem;
+    /* Eliminamos el borde, el fondo y el overflow para integrar el mapa y evitar que se corte la ventana */
 }
 
 svg {
@@ -47,12 +44,14 @@ svg {
 
 /* Países que SÍ tienen datos en el CSV */
 .country.has-data {
-    fill: #4682b4; /* SteelBlue */
     cursor: pointer;
+    opacity: 0.9;
 }
 
 .country.has-data:hover {
-    fill: #315f86; /* Un poco más oscuro al pasar el ratón */
+    opacity: 1;
+    stroke-width: 1px;
+    filter: brightness(0.9);
 }
 
 /* Cuando se mantiene presionado el ratón */
