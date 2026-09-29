@@ -55,11 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const countries = topojson.feature(world, world.objects.countries).features;
 
-        // Escala de color de rojo (baja productividad) a verde (alta)
-        // Ajustamos los valores 50 (rojo), 70 (amarillo) y 90 (verde) según lo que se considere "malo" a "bueno"
-        const colorScale = d3.scaleLinear()
-            .domain([50, 70, 90])
-            .range(["#e74c3c", "#f1c40f", "#2ecc71"]);
+        // Escala de colores categórica para asignar un color distinto a cada país
+        // Usamos una paleta integrada de D3 que tiene colores variados y amigables
+        const colorScale = d3.scaleOrdinal(d3.schemeSet3);
 
         // 3. Dibujar el mapa
         const g = svg.append("g");
@@ -70,16 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
             .attr("class", d => {
                 let name = d.properties.name;
                 name = nameMapping[name] || name;
-                // Si el país existe en nuestros datos, le damos la clase 'has-data'
                 return countryData[name] ? "country has-data" : "country";
             })
             .style("fill", d => {
                 let name = d.properties.name;
                 name = nameMapping[name] || name;
                 if (countryData[name]) {
-                    return colorScale(countryData[name].avgProd);
+                    return colorScale(name); // Asigna un color único por nombre de país
                 }
-                return null; // CSS default para sin datos (#d3d3d3)
+                return null; // CSS default
             })
             .attr("d", path)
             // 4. Configurar interactividad (Mouse Eventos)
