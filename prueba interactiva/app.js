@@ -128,7 +128,7 @@ function actualizarVisualizacion() {
     video.playbackRate = velocidad;
 }
 
-d3.csv("data/Work Productivity.csv")
+d3.csv("data/datos.csv")
 .then(data => {
     datos = data.map(d => ({
         ...d,
