@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sueño y Productividad</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <section id="vista-mapa" class="vista activa">
+            <div id="visualization-container">
+                <svg id="map-svg" width="900" height="500"></svg>
+                <div id="tooltip" class="hidden"></div>
+            </div>
+        </section>
+
+        <section id="vista-pais" class="vista">
+            <div class="visualizacion">
+                <section class="escena">
+                    <div class="controles-laterales">
+                        <button id="volver-mapa" type="button">←</button>
+                        <button id="control-sonido" type="button">🔇</button>
+                    </div>
+
+                    <div class="video-contenedor">
+                        <video id="workerVideo" autoplay muted loop playsinline>
+                            <source src="media/gato1.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                    <div class="panel-productividad">
+                        <div id="tareas" class="tareas"></div>
+                        <div id="nombre-pais"></div>
+                    </div>
+                </section>
+
+                <section class="selector">
+                    <div id="horasTexto" class="valor-horas"></div>
+
+                    <input type="range" id="sleepSlider" min="4" max="9" step="0.5" value="6.5">
+
+                    <div class="limites">
+                        <span id="minHorasTexto"></span>
+                        <span id="maxHorasTexto"></span>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <audio id="audioTrabajo" loop preload="auto">
+        <source src="media/teclado.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="app.js"></script>
+</body>
+</html>
