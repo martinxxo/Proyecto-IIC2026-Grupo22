@@ -1,0 +1,134 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Fondo negro/oscuro elegante */
+    color: #e0e0e0;
+}
+
+header {
+    background-color: transparent; /* Integrado con el fondo */
+    color: #ffffff;
+    padding: 2.5rem 1rem 1rem 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+header p {
+    color: #aaaaaa;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: transparent; /* Sin fondo blanco ni sombras */
+    box-shadow: none;
+    border-radius: 0;
+}
+
+#visualization-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+svg {
+    display: block;
+}
+
+/* Estilos de los países en el mapa */
+.country {
+    fill: #2a2a2a; /* Color gris muy oscuro para los países sin datos */
+    stroke: #444444; /* Bordes suaves para no distraer */
+    stroke-width: 0.8px;
+    transition: filter 0.2s, stroke-width 0.2s;
+}
+
+/* Países que SÍ tienen datos en el CSV */
+.country.has-data {
+    cursor: pointer;
+    opacity: 0.95;
+    stroke: #ffffff; /* Borde blanco para resaltarlos */
+    stroke-width: 1.2px;
+}
+
+.country.has-data:hover {
+    opacity: 1;
+    stroke-width: 2px; /* Borde más grueso al pasar el ratón */
+    filter: brightness(1.2);
+}
+
+/* Cuando se mantiene presionado el ratón */
+.country.active {
+    filter: brightness(1.5) !important;
+    stroke: #ffffff;
+    stroke-width: 2.5px;
+}
+
+/* Estilos de la Ventanita (Tooltip) adaptados al modo oscuro */
+#tooltip {
+    position: absolute;
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid #555;
+    color: #ffffff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    pointer-events: none;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+    font-size: 0.95rem;
+    transform: translate(-50%, -100%);
+    margin-top: -10px;
+    z-index: 10;
+    min-width: 180px;
+}
+
+#tooltip.hidden {
+    display: none;
+}
+
+#tooltip h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+    color: #4db8ff; /* Azul brillante para el nombre del país */
+    border-bottom: 1px solid #444;
+    padding-bottom: 6px;
+}
+
+#tooltip p {
+    margin: 5px 0;
+    color: #cccccc;
+}
+
+#tooltip p strong {
+    color: #ffffff;
+}
+
+#controls {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    background-color: #0078d7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005a9e;
+}

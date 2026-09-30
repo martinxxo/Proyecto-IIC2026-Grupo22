@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sueño y Productividad</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="visualizacion">
+        <section class="escena">
+            <div class="video-contenedor">
+                <video id="workerVideo" autoplay muted loop playsinline>
+                    <source src="../../media/gato.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div id="tareas" class="tareas" aria-label="Unidades visuales de productividad"></div>
+        </section>
+        <section class="selector">
+            <div class="valor-horas" id="horasTexto">Cargando datos...</div>
+            <input type="range" id="sleepSlider" min="0" max="1" step="0.5" value="0" disabled aria-label="Horas de sueño">
+            <div class="limites">
+                <span id="minHorasTexto">-</span>
+                <span id="maxHorasTexto">-</span>
+            </div>
+        </section>
+    </main>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

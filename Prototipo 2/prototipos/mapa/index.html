@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización: Sueño y Productividad en el Mundo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Impacto del Sueño en la Productividad por País</h1>
+        <p>Mantén presionado el clic (mouse) sobre los países en azul para ver la información.</p>
+    </header>
+
+    <main>
+        <section id="visualization-container">
+            <svg id="map-svg" width="900" height="500"></svg>
+            <div id="tooltip" class="hidden"></div>
+        </section>
+        
+        <section id="controls">
+            <button id="play-sonification">Reproducir Sonificación (Próximamente)</button>
+        </section>
+    </main>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- TopoJSON para procesar el mapa -->
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <script src="app.js"></script>
+</body>
+</html>

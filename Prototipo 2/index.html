@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dormir más, rendir más — Sueño y productividad en 9 países</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="cabecera">
+        <h1>En los 9 países, cada hora extra de sueño suma unos 7 puntos de productividad</h1>
+        <p class="bajada">
+            30.000 trabajadores de oficina. Haz clic en un país del mapa para ver y escuchar teclear a sus trabajadores;
+            luego recorre las horas de sueño en el gráfico. Todos los países cuentan casi la misma historia.
+        </p>
+    </header>
+
+    <main class="lienzo">
+        <!-- 1. MAPA: interacción principal (elegir país) -->
+        <section class="bloque mapa" aria-label="Mapa: elige un país">
+            <h2 class="bloque-titulo">1 · Elige dónde mirar</h2>
+            <div class="mapa-contenedor">
+                <svg id="mapa" role="img" aria-label="Mapa mundial con los 9 países del estudio destacados"></svg>
+                <div id="tooltipMapa" class="tooltip" hidden></div>
+            </div>
+            <div class="paises" id="paises" role="group" aria-label="Países"></div>
+            <p class="nota">El número junto a cada país: puntos de productividad que suma cada hora extra de sueño.</p>
+        </section>
+
+        <!-- 2. GRÁFICO: vista general de la relación -->
+        <section class="bloque grafico" aria-label="Gráfico: horas de sueño versus productividad">
+            <h2 class="bloque-titulo">2 · Recorre las horas de sueño</h2>
+            <div class="filtros" role="group" aria-label="Filtrar trabajadores mostrados en la nube">
+                <span class="filtros-titulo">Puntos:</span>
+                <button class="filtro activo" data-filtro="todos" aria-pressed="true">Todos</button>
+                <button class="filtro" data-filtro="burnout" aria-pressed="false">Bajo 60 puntos</button>
+                <button class="filtro" data-filtro="sano" aria-pressed="false">60 o más</button>
+            </div>
+            <svg id="grafico" role="img" aria-labelledby="grafico-desc"></svg>
+            <p id="grafico-desc" class="sr-only">
+                Nube de puntos de trabajadores y línea con la productividad promedio por tramo de 30 minutos de sueño.
+                Sube de 57 puntos (4 a 4,5 horas) a 90 puntos (8,5 a 9 horas). Las líneas de los 9 países casi se superponen.
+            </p>
+            <label class="control-horas">
+                <span class="sr-only">Horas de sueño</span>
+                <input type="range" id="selectorHoras" min="0" max="9" step="1" value="4">
+            </label>
+        </section>
+
+        <!-- 3. DETALLE + SONIDO -->
+        <section class="bloque detalle" aria-live="polite">
+            <h2 class="detalle-titulo" id="txtTitulo">—</h2>
+
+            <div class="celda gato">
+                <div class="gato-marco">
+                    <video id="videoGato" autoplay muted loop playsinline preload="auto" poster="media/gato-poster.jpg" aria-hidden="true">
+                        <source src="media/gato.webm" type="video/webm">
+                        <source src="media/gato.mp4" type="video/mp4">
+                    </video>
+                    <span class="gato-velocidad" id="txtVelocidad">1,0×</span>
+                </div>
+                <p class="nota">El gato y el sonido del teclado van a la misma velocidad: más productividad, más rápido (1× = promedio de todos). El marco parpadea en rojo con cada error.</p>
+            </div>
+
+            <div class="celda">
+                <p class="metrica-valor"><span id="txtProd">—</span><small>/100</small></p>
+                <p class="metrica-nombre">productividad promedio</p>
+                <div class="tareas" id="tareas" aria-hidden="true"></div>
+                <p class="nota">Cada casilla = 10 puntos. La mitad central va de <span id="txtRango">—</span>.</p>
+            </div>
+
+            <div class="celda">
+                <p class="metrica-valor bajo60"><span id="txtBurnout">—</span><small> de cada 100</small></p>
+                <p class="metrica-nombre">rinden bajo 60 puntos (el dataset los marca «en riesgo de burnout»)</p>
+                <div class="personas" id="personas" aria-hidden="true"></div>
+                <p class="nota" id="txtN">—</p>
+            </div>
+
+            <div class="celda sonido" aria-label="Controles de sonido">
+                <button id="btnSonido" class="boton" aria-pressed="false">🔈 Activar sonido</button>
+                <button id="btnRecorrido" class="boton secundario">▶ Escuchar de 4 a 9 horas</button>
+                <ul class="leyenda-sonido">
+                    <li><b>Tecleo más rápido</b> = más productividad (va al ritmo del gato)</li>
+                    <li><b>Sonido de error</b> = trabajadores bajo 60 puntos: más errores, más de ellos</li>
+                    <li><b>Izquierda / derecha</b> (audífonos) = dónde está el país en el mapa</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="pie">
+        <p>
+            Datos: «Work Productivity» (Kaggle) <!-- TODO grupo: pegar el link exacto -->, 30.000 registros <em>sintéticos</em>,
+            ~3.300 por país. Correlación de Pearson global r = <span id="txtR">—</span>.
+            Que dos variables se muevan juntas no prueba que una cause la otra.
+        </p>
+        <p>IIC2026 · Visualización de Información · Grupo 22</p>
+    </footer>
+
+    <script src="vendor/d3.min.js"></script>
+    <script src="vendor/topojson-client.min.js"></script>
+    <script src="data/datos.js"></script>
+    <script src="data/mundo.js"></script>
+    <script src="sonido.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
