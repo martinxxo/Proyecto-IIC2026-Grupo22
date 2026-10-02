@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dormir más, rendir más — Sueño y productividad en 9 países</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="cabecera">
+        <h1>En los 9 países, cada hora extra de sueño<br>suma unos 7 puntos de productividad</h1>
+    </header>
+
+    <main class="lienzo">
+        <div class="columna-izquierda">
+            <section class="bloque mapa" aria-label="Mapa: elige un país">
+                <div class="mapa-contenedor">
+                    <svg id="mapa" role="img" aria-label="Mapa mundial con los 9 países del estudio destacados"></svg>
+                    <div id="tooltipMapa" class="tooltip" hidden></div>
+                </div>
+
+                <div class="paises" id="paises" role="group" aria-label="Países"></div>
+
+                <p class="nota">El número junto a cada país: puntos de productividad que suma cada hora extra de sueño.</p>
+            </section>
+
+            <section class="bloque-horas">
+                <div class="grupo-horas">
+                    <div class="nombre-barra">Sueño</div>
+                    <div class="eje-horas" id="ejeHoras"></div>
+
+                    <label class="control-horas">
+                        <span class="sr-only">Horas de sueño</span>
+                        <input type="range" id="selectorHoras" min="0" max="9" step="1" value="4">
+                    </label>
+                </div>
+
+                <div class="grupo-horas">
+                    <div class="nombre-barra">Edad</div>
+                    <div class="eje-edad" id="ejeEdad"></div>
+
+                    <label class="control-horas">
+                        <span class="sr-only">Edad</span>
+                        <input type="range" id="selectorEdad" min="0" max="32" step="1" value="16">
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <section class="bloque experiencia" aria-live="polite">
+            <h2 class="detalle-titulo" id="txtTitulo">—</h2>
+
+            <div class="fila-principal">
+                <div class="gato">
+                    <div class="gato-marco">
+                        <video id="videoGato" autoplay muted loop playsinline preload="auto" poster="media/gato-poster.jpg" aria-hidden="true">
+                            <source src="media/gato.webm" type="video/webm">
+                            <source src="media/gato.mp4" type="video/mp4">
+                        </video>
+                        <span class="gato-velocidad" id="txtVelocidad">1,0×</span>
+                    </div>
+                </div>
+
+                <div class="bloque-riesgo">
+                    <div class="riesgo-texto">
+                        <p class="metrica-valor bajo60">
+                            <span id="txtBurnout">—</span><small> de cada 100</small>
+                        </p>
+                        <p class="metrica-nombre">rinden bajo 60 puntos</p>
+                    </div>
+
+                    <div class="personas" id="personas" aria-hidden="true"></div>
+                </div>
+            </div>
+
+            <div class="sonido" aria-label="Controles de sonido">
+                <button id="btnSonido" class="boton" aria-pressed="false">🔈 Activar sonido</button>
+                <button id="btnRecorrido" class="boton secundario">▶ Escuchar de 4 a 9 horas</button>
+            </div>
+
+            <div class="bloque-productividad">
+                <div class="productividad-info">
+                    <p class="metrica-valor">
+                        <span id="txtProd">—</span><small>/100</small>
+                    </p>
+                    <p class="metrica-nombre">productividad promedio</p>
+                </div>
+
+                <div class="tareas" id="tareas" aria-hidden="true"></div>
+            </div>
+        </section>
+    </main>
+
+    <audio id="audioTeclado" loop preload="auto">
+        <source src="media/teclado.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="vendor/d3.min.js"></script>
+    <script src="vendor/topojson-client.min.js"></script>
+    <script src="data/datos.js"></script>
+    <script src="data/mundo.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
