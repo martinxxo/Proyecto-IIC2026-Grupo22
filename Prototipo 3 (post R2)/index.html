@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La paradoja del descanso — Grupo 22</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>
+            Dormir más se asocia con una<br>
+            mayor productividad, <em>sin importar la edad</em>
+        </h1>
+    </header>
+    <main>
+        <section class="top">
+            <div class="panel illustration">
+                <div class="panel-top">
+                    <h2>Ritmo de trabajo</h2>
+                </div>
+                <div class="media-placeholder">
+                    <video id="workVideo" class="work-video"
+                        autoplay muted loop playsinline preload="auto">
+                        <source src="media/tecladoo.mp4" type="video/mp4">
+                        Tu navegador no admite este video.
+                    </video>
+                    <audio id="workAudio" src="media/audio.mp3"
+                        preload="auto" loop></audio>
+                </div>
+                <div class="media-actions">
+                    <button id="soundButton" class="media-button sound-button"
+                        type="button" aria-pressed="false">
+                        <span id="soundIcon" aria-hidden="true">♪</span>
+                        <span id="soundLabel">Activar sonido</span>
+                    </button>
+                    <button id="progressButton" class="media-button progress-button"
+                        type="button" aria-pressed="false">
+                        <span id="progressIcon" aria-hidden="true">▶</span>
+                        <span id="progressLabel">Progresión de 4 a 9 horas</span>
+                    </button>
+                </div>
+            </div>
+            <div class="panel metrics">
+                <div class="panel-top">
+                    <h2>Productividad y rendimiento</h2>
+                </div>
+                <div class="metric-main">
+                    <div class="metric-number">
+                        <span id="prodValue">—</span>
+                        <small>/100</small>
+                    </div>
+                    <div class="metric-label">Productividad promedio</div>
+                    <div class="progress"><div id="prodBar"></div></div>
+                </div>
+                <div class="low-panel">
+                    <div class="low-top">
+                        <div>
+                            <span class="low-number" id="lowValue">—</span>
+                            <span class="low-unit">de cada 100</span>
+                            <div class="metric-label">tienen productividad inferior a 60 puntos</div>
+                        </div>
+                    </div>
+                    <div class="persons" id="persons"
+                        aria-label="Representación de 100 trabajadores"></div>
+                </div>
+            </div>
+        </section>
+        <section class="panel controls">
+            <div class="section-header">
+                <h2>¿Cuánto duermen y cuánto ejercicio hacen?</h2>
+            </div>
+            <div class="control-grid">
+                <div class="control-block">
+                    <div class="control-content">
+                        <div class="control-head">
+                            <label for="sleepRange">Horas de sueño por día</label>
+                            <strong id="sleepValue"></strong>
+                        </div>
+                        <input id="sleepRange" type="range" min="0" max="9" step="1" value="5">
+                        <div class="range-ends"><span>4 horas</span><span>9 horas</span></div>
+                    </div>
+                </div>
+                <div class="control-block">
+                    <div class="control-content">
+                        <div class="control-head">
+                            <label for="exerciseRange">Ejercicio por semana</label>
+                            <strong id="exerciseValue"></strong>
+                        </div>
+                        <input id="exerciseRange" type="range" min="0" max="3" step="1" value="1">
+                        <div class="range-ends"><span>0 horas</span><span>6 horas</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="panel chart-panel">
+            <div class="section-header">
+                <h2>Productividad según horas de sueño por grupo de edad</h2>
+                <div class="legend">
+                    <span><i style="background:#f2b544"></i>22 – 30 años</span>
+                    <span><i style="background:#67c7ce"></i>31 – 40 años</span>
+                    <span><i style="background:#e88f9c"></i>41 – 54 años</span>
+                </div>
+            </div>
+            <div id="chart" class="chart"></div>
+        </section>
+    </main>
+    <footer>
+        <div>
+            <strong>Fuente:</strong> Work Productivity &amp; Burnout Risk Dataset (Kaggle).
+            Datos sintéticos; 30.000 registros.
+            <strong>Correlación ≠ causalidad.</strong>
+            Las relaciones observadas no demuestran que dormir
+            o ejercitarse más cause un aumento de productividad.
+        </div>
+        <span>IIC2026 · Grupo 22</span>
+    </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
