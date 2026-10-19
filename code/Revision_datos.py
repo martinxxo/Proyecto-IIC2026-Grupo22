@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-path = os.path.join('code', 'data', 'Work Productivity.csv')
+path = os.path.join('data', 'Work Productivity.csv')
 df = pd.read_csv(path, sep=',', encoding='utf-8')
 
 #print(df.shape)
@@ -45,3 +45,20 @@ print(resumen_paises)
 print("--- TAMAÑO TOTAL ---")
 print(f"El archivo tiene {df.shape[0]} filas y {df.shape[1]} columnas.")
 
+columna_pais = 'Country' 
+columna_sueno = 'Sleep_Hours'  # Podría llamarse 'horas_sueño', 'Hours of Sleep', etc.
+
+# 1. Agrupar por país, calcular el promedio (mean) de las horas de sueño
+promedio_sueno = df.groupby(columna_pais)[columna_sueno].mean().reset_index()
+
+# 2. Ordenar los resultados de mayor a menor promedio
+promedio_sueno = promedio_sueno.sort_values(by=columna_sueno, ascending=False)
+
+# 3. Redondear a 2 decimales para que se vea más limpio
+promedio_sueno = promedio_sueno.round(2)
+
+# 4. Renombrar las columnas para mostrarlas en español (opcional)
+promedio_sueno.columns = ['País', 'Promedio de Horas de Sueño']
+
+print("--- PROMEDIO DE HORAS DE SUEÑO POR PAÍS ---")
+print(promedio_sueno.to_string(index=False))

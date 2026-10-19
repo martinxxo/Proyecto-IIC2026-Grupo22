@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La paradoja del descanso — Grupo 22</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <h1>
+            Dormir más se asocia con una<br>
+            mayor productividad, <em>sin importar la edad</em>
+        </h1>
+    </header>
+    <main>
+        <!-- Bloque superior: Izquierda (Filtros compactos arriba + Productividad en primer plano) | Derecha (Acompañamiento sensorial reordenado) -->
+        <section class="top-workspace">
+            <div class="primary-column">
+                <!-- Filtros compactos que abarcan solo la parte superior del panel principal -->
+                <div class="panel controls-compact" aria-label="Filtros de exploración">
+                    <div class="controls-compact-grid">
+                        <div class="control-mini">
+                            <div class="control-head">
+                                <label for="sleepRange">Horas de sueño por día</label>
+                                <strong id="sleepValue"></strong>
+                            </div>
+                            <input id="sleepRange" type="range" min="0" max="9" step="1" value="5">
+                            <div class="range-ends"><span>4 h</span><span>6,5 h</span><span>9 h</span></div>
+                        </div>
+                        <div class="control-mini">
+                            <div class="control-head">
+                                <label for="exerciseRange">Ejercicio por semana</label>
+                                <strong id="exerciseValue"></strong>
+                            </div>
+                            <input id="exerciseRange" type="range" min="0" max="3" step="1" value="1">
+                            <div class="range-ends"><span>0 h</span><span>3 h</span><span>6 h</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Productividad y Rendimiento en primer plano -->
+                <div class="panel metrics-primary">
+                    <div class="panel-top">
+                        <div>
+                            <h2>Productividad y rendimiento</h2>
+                            <p class="context-summary" id="contextSummary">
+                                Cargando condición seleccionada…
+                            </p>
+                        </div>
+                        <span class="sample-pill" id="sampleCount">n = — trabajadores</span>
+                    </div>
+
+                    <div class="metrics-body">
+                        <!-- Puntaje promedio de productividad -->
+                        <div class="metric-main-card">
+                            <div class="metric-eyebrow">Índice de productividad promedio</div>
+                            <div class="metric-number">
+                                <span id="prodValue">—</span>
+                                <small>/ 100 pts</small>
+                            </div>
+                            <div class="metric-status" id="prodStatus">—</div>
+
+                            <div class="progress-wrapper">
+                                <div class="progress">
+                                    <div id="prodBar"></div>
+                                    <span class="threshold-line" style="left: 60%;" title="Umbral de 60 puntos"></span>
+                                </div>
+                                <div class="progress-scale">
+                                    <span>0 pts</span>
+                                    <span class="threshold-label">▲ 60 pts (umbral mínimo)</span>
+                                    <span>100 pts</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Proporción de cada 100 trabajadores (cuadrícula de puntos) -->
+                        <div class="low-panel">
+                            <div class="low-top">
+                                <div class="low-stat-group">
+                                    <div class="low-headline">
+                                        <span class="low-number" id="lowValue">—</span>
+                                        <span class="low-unit">de cada 100 trabajadores</span>
+                                    </div>
+                                    <div class="metric-label">
+                                        obtienen <strong>menos de 60 puntos</strong> (bajo rendimiento)
+                                    </div>
+                                </div>
+                                <div class="ok-stat-badge">
+                                    <strong id="okValue">—</strong>/100 sobre el umbral (≥ 60 pts)
+                                </div>
+                            </div>
+
+                            <div class="persons" id="persons"
+                                aria-label="Representación proporcional de 100 trabajadores"></div>
+
+                            <div class="dots-legend">
+                                <span><b class="dot-low">●</b> Bajo rendimiento (&lt; 60 pts)</span>
+                                <span><b class="dot-ok">●</b> Rendimiento adecuado (≥ 60 pts)</span>
+                                <span class="dots-note">1 punto (●) = 1% del grupo seleccionado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Disclaimer explicativo sobre los puntos y su significado -->
+                    <aside class="points-disclaimer" aria-label="Nota metodológica sobre los puntos">
+                        <div class="disclaimer-icon" aria-hidden="true">ℹ</div>
+                        <div class="disclaimer-text">
+                            <strong>Disclaimer — ¿Qué significan los puntos en esta visualización?</strong>
+                            <ul>
+                                <li>
+                                    <strong>Puntos de productividad (0 a 100 pts):</strong> Índice compuesto del dataset que mide el desempeño diario. Un puntaje <strong>menor a 60 puntos</strong> define el umbral de <em>bajo rendimiento</em> y mayor riesgo de agotamiento (<em>burnout</em>).
+                                </li>
+                                <li>
+                                    <strong>Puntos de la cuadrícula (●):</strong> Cada círculo equivale a <strong>1 de cada 100 trabajadores</strong> en el tramo filtrado. Los rojos representan la proporción bajo 60 puntos y los grises quienes alcanzan 60 puntos o más.
+                                </li>
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- Columna derecha: Acompañamiento sensorial reordenado y alineado verticalmente -->
+            <aside class="panel illustration-companion" aria-label="Acompañamiento audiovisual de ritmo de trabajo">
+                <div class="companion-top-block">
+                    <div class="panel-top companion-header">
+                        <div>
+                            <span class="companion-tag">Acompañamiento sensorial</span>
+                            <h2>Ritmo de trabajo</h2>
+                        </div>
+                        <span class="speed-badge" id="speedBadge">1,0×</span>
+                    </div>
+
+                    <div class="media-actions">
+                        <button id="soundButton" class="media-button sound-button"
+                            type="button" aria-pressed="false">
+                            <span id="soundIcon" aria-hidden="true">♪</span>
+                            <span id="soundLabel">Activar sonido</span>
+                        </button>
+                        <button id="progressButton" class="media-button progress-button"
+                            type="button" aria-pressed="false">
+                            <span id="progressIcon" aria-hidden="true">▶</span>
+                            <span id="progressLabel">Recorrer 4 a 9 h</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="media-placeholder">
+                    <video id="workVideo" class="work-video"
+                        autoplay muted loop playsinline preload="auto">
+                        <source src="media/tecladoo.mp4" type="video/mp4">
+                        Tu navegador no admite este video.
+                    </video>
+                    <audio id="workAudio" src="media/audio.mp3"
+                        preload="auto" loop></audio>
+                </div>
+
+                <div class="companion-info-box">
+                    <p class="companion-desc">
+                        <strong>¿Cómo interpretar el video y el sonido?</strong><br>
+                        La velocidad del tecleo se sincroniza con las horas de sueño seleccionadas: a mayor descanso, mayor fluidez y ritmo de productividad.
+                    </p>
+                    <div class="companion-metrics-mini">
+                        <div>
+                            <span>Tramo actual</span>
+                            <strong id="companionSleepLabel">—</strong>
+                        </div>
+                        <div>
+                            <span>Cadencia relativa</span>
+                            <strong id="companionSpeedLabel">—</strong>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <!-- Gráfico inferior mejorado para destacar la coincidencia entre grupos de edad -->
+        <section class="panel chart-panel">
+            <div class="section-header chart-header">
+                <div>
+                    <h2>Productividad según horas de sueño por grupo de edad</h2>
+                    <p class="chart-subtitle">
+                        Las 3 curvas prácticamente se superponen: la diferencia entre edades es mínima (<strong>&lt; 1,5 pts</strong>), mientras que dormir de 4 a 9 horas eleva la productividad en <strong>+33,5 pts</strong>. <em>Haz clic en cualquier tramo del gráfico para seleccionarlo.</em>
+                    </p>
+                </div>
+                <div class="legend" id="ageLegend" role="group" aria-label="Destacar grupo de edad">
+                    <button type="button" class="legend-btn active" data-age="all">Todos (coincidencia)</button>
+                    <button type="button" class="legend-btn" data-age="0"><i style="background:#f2b544"></i>22 – 30 años</button>
+                    <button type="button" class="legend-btn" data-age="1"><i style="background:#67c7ce"></i>31 – 40 años</button>
+                    <button type="button" class="legend-btn" data-age="2"><i style="background:#e88f9c"></i>41 – 54 años</button>
+                </div>
+            </div>
+
+            <!-- Resumen en vivo de coincidencia por edad para el tramo seleccionado -->
+            <div class="convergence-strip" id="convergenceStrip">
+                <div class="conv-title">
+                    Coincidencia en <strong id="convSleepLabel">—</strong>:
+                </div>
+                <div class="conv-items">
+                    <span class="conv-pill"><i style="background:#f2b544"></i>22–30 años: <strong id="convAge0">—</strong></span>
+                    <span class="conv-pill"><i style="background:#67c7ce"></i>31–40 años: <strong id="convAge1">—</strong></span>
+                    <span class="conv-pill"><i style="background:#e88f9c"></i>41–54 años: <strong id="convAge2">—</strong></span>
+                </div>
+                <div class="conv-spread">
+                    Diferencia máx. entre edades: <strong id="convSpread">—</strong>
+                </div>
+            </div>
+
+            <div id="chart" class="chart"></div>
+        </section>
+    </main>
+    <footer>
+        <div>
+            <strong>Fuente:</strong> Work Productivity &amp; Burnout Risk Dataset (Kaggle).
+            Datos sintéticos; 30.000 registros.
+            <strong>Correlación ≠ causalidad.</strong>
+            Las relaciones observadas no demuestran que dormir
+            o ejercitarse más cause un aumento de productividad.
+        </div>
+        <span>IIC2026 · Grupo 22</span>
+    </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
