@@ -3,29 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualización: Sueño y Productividad en el Mundo</title>
+    <title>La paradoja del descanso — Grupo 22</title>
+    <base href="v4/v4%20final/">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Impacto del Sueño en la Productividad por País</h1>
-        <p>Mantén presionado el clic (mouse) sobre los países en azul para ver la información.</p>
+<div class="page">
+    <header class="header">
+        <h1>Dormir más se asocia con una<br>mayor productividad, <em>sin importar la edad</em></h1>
     </header>
 
     <main>
-        <section id="visualization-container">
-            <svg id="map-svg" width="900" height="500"></svg>
-            <div id="tooltip" class="hidden"></div>
+        <section class="top-workspace">
+            <div class="primary-column">
+                <div class="panel controls-compact" aria-label="Filtros de exploración">
+                    <div class="controls-compact-grid">
+                        <div class="control-mini">
+                            <div class="control-head">
+                                <label for="sleepRange">Horas de sueño por día</label>
+                                <strong id="sleepValue"></strong>
+                            </div>
+                            <input id="sleepRange" type="range" min="0" max="9" step="1" value="5">
+                            <div class="range-ends">
+                                <span>4 h</span>
+                                <span>6,5 h</span>
+                                <span>9 h</span>
+                            </div>
+                        </div>
+
+                        <div class="control-mini">
+                            <div class="control-head">
+                                <label for="exerciseRange">Ejercicio por semana</label>
+                                <strong id="exerciseValue"></strong>
+                            </div>
+                            <input id="exerciseRange" type="range" min="0" max="3" step="1" value="1">
+                            <div class="range-ends">
+                                <span>0 h</span>
+                                <span>3 h</span>
+                                <span>6 h</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel metrics-primary">
+                    <div class="panel-top">
+                        <div>
+                            <h2>Productividad y rendimiento</h2>
+                            <p class="context-summary" id="contextSummary">Cargando condición seleccionada…</p>
+                        </div>
+                    </div>
+
+                    <div class="metrics-body">
+                        <div class="metric-main-card">
+                            <div class="metric-eyebrow">
+                                Productividad individual<br>esperada
+                            </div>
+
+                            <div class="metric-number">
+                                <span id="prodValue">—</span>
+                                <small>/ 100</small>
+                            </div>
+
+                            <div class="progress-wrapper">
+                                <div class="progress">
+                                    <div id="prodBar"></div>
+                                </div>
+                                <div class="progress-scale">
+                                    <span>0</span>
+                                    <span class="threshold-label">Productividad media</span>
+                                    <span>100</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="low-panel">
+                            <div class="low-top">
+                                <div class="low-stat-group">
+                                    <div class="low-headline">
+                                        <span class="low-number" id="lowValue">—</span>
+                                        <span class="low-unit">de cada 100 trabajadores</span>
+                                    </div>
+                                    <div class="metric-label">
+                                        presentan una <strong>productividad baja</strong>
+                                    </div>
+                                </div>
+                                <div class="ok-stat-badge">
+                                    <strong id="okValue">—</strong>/100 con productividad media o alta
+                                </div>
+                            </div>
+
+                            <div class="persons" id="persons" aria-label="Representación proporcional de 100 trabajadores"></div>
+
+                            <div class="dots-legend">
+                                <span><b class="dot-low">●</b> Productividad baja</span>
+                                <span><b class="dot-ok">●</b> Productividad media o alta</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="panel illustration-companion" aria-label="Ritmo de trabajo audiovisual">
+                <h2 class="rhythm-heading">Ritmo de trabajo</h2>
+
+                <div class="rhythm-indicator" aria-label="Porcentaje del ritmo habitual">
+                    <strong id="speedBadge">100%</strong>
+                    <span>del ritmo habitual</span>
+                </div>
+
+                <div class="media-placeholder">
+                    <video id="workVideo" class="work-video" autoplay muted loop playsinline preload="auto">
+                        <source src="media/tecladoo.mp4" type="video/mp4">
+                        Tu navegador no admite este video.
+                    </video>
+                    <audio id="workAudio" src="media/audio.mp3" preload="auto" loop></audio>
+                </div>
+
+                <div class="rhythm-actions">
+                    <button id="soundButton" class="media-button sound-button" type="button" aria-pressed="false">
+                        <span id="soundIcon" aria-hidden="true">♪</span>
+                        <span id="soundLabel">Activar sonido</span>
+                    </button>
+
+                    <div class="progress-action-row">
+                        <button id="progressButton" class="media-button progress-button" type="button" aria-pressed="false">
+                            <span id="progressIcon" aria-hidden="true">▶</span>
+                            <span id="progressLabel">Recorrer horas de sueño</span>
+                        </button>
+
+                        <div class="progress-info-wrap">
+                            <button
+                                id="progressInfoButton"
+                                class="progress-info-button"
+                                type="button"
+                                aria-label="Información sobre el recorrido"
+                                aria-expanded="false"
+                                aria-controls="progressInfoPopover"
+                            >i</button>
+
+                            <div id="progressInfoPopover" class="progress-info-popover" role="tooltip">
+                                Recorre automáticamente cada tramo de sueño, desde 4 hasta 9 horas, para mostrar cómo cambia la productividad. El nivel de ejercicio seleccionado se mantiene fijo.
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="chartJumpButton" class="media-button chart-jump-button" type="button">
+                        <span aria-hidden="true">↓</span>
+                        <span>Ver gráfico de productividad</span>
+                    </button>
+                </div>
+            </aside>
         </section>
-        
-        <section id="controls">
-            <button id="play-sonification">Reproducir Sonificación (Próximamente)</button>
+
+        <section class="panel chart-panel" id="chartPanel">
+            <div class="section-header chart-header">
+                <div>
+                    <h2>Productividad según horas de sueño por grupo de edad</h2>
+                    <p class="chart-subtitle">
+                        <span style="display:block">
+                            Los tres grupos de edad presentan una evolución muy similar.
+                        </span>
+                        <span style="display:block">
+                            Al aumentar las horas de sueño, la productividad pasa de baja a media y alta.
+                        </span>
+                        <em style="display:block">
+                            Haz clic en cualquier tramo del gráfico para seleccionarlo.
+                        </em>
+                    </p>
+                </div>
+
+                <div class="legend" id="ageLegend" role="group" aria-label="Destacar grupo de edad">
+                    <button type="button" class="legend-btn active" data-age="all">Todos (coincidencia)</button>
+                    <button type="button" class="legend-btn" data-age="0">
+                        <i style="background:#f2b544"></i>22 – 30 años
+                    </button>
+                    <button type="button" class="legend-btn" data-age="1">
+                        <i style="background:#67c7ce"></i>31 – 40 años
+                    </button>
+                    <button type="button" class="legend-btn" data-age="2">
+                        <i style="background:#e88f9c"></i>41 – 54 años
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="convergence-strip"
+                id="convergenceStrip"
+                style="display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:10px;min-height:42px;padding:8px 12px;"
+            >
+                <div
+                    class="conv-title"
+                    style="display:flex;align-items:center;gap:5px;flex:0 0 auto;white-space:nowrap;"
+                >
+                    <span>Coincidencia en</span>
+                    <strong id="convSleepLabel">—</strong>
+                    <span>:</span>
+                </div>
+
+                <div
+                    class="conv-items"
+                    style="display:flex;align-items:center;justify-content:space-around;flex:1 1 auto;flex-wrap:nowrap;gap:8px;min-width:0;"
+                >
+                    <span class="conv-pill" style="display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font-size:11px;">
+                        <i style="background:#f2b544"></i>
+                        <span>22–30 años:</span>
+                        <span style="color:#eceaf4;font-weight:600">Productividad</span>
+                        <strong id="convAge0">—</strong>
+                    </span>
+
+                    <span class="conv-pill" style="display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font-size:11px;">
+                        <i style="background:#67c7ce"></i>
+                        <span>31–40 años:</span>
+                        <span style="color:#eceaf4;font-weight:600">Productividad</span>
+                        <strong id="convAge1">—</strong>
+                    </span>
+
+                    <span class="conv-pill" style="display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font-size:11px;">
+                        <i style="background:#e88f9c"></i>
+                        <span>41–54 años:</span>
+                        <span style="color:#eceaf4;font-weight:600">Productividad</span>
+                        <strong id="convAge2">—</strong>
+                    </span>
+                </div>
+            </div>
+
+            <div id="chart" class="chart"></div>
         </section>
     </main>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <!-- TopoJSON para procesar el mapa -->
-    <script src="https://unpkg.com/topojson-client@3"></script>
-    <script src="app.js"></script>
+    <footer>
+        <div>
+            <strong>Fuente:</strong> Work Productivity &amp; Burnout Risk Dataset (Kaggle).
+            Datos sintéticos; 30.000 registros.
+            <strong>Correlación ≠ causalidad.</strong>
+            Las relaciones observadas no demuestran que dormir o ejercitarse más
+            cause un aumento de productividad.
+        </div>
+        <span>IIC2026 · Grupo 22</span>
+    </footer>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
