@@ -1,4 +1,3 @@
-
 "use strict";
 
 const VENTANA = 3.0;
@@ -6,9 +5,15 @@ const TIEMPO_PARADA = 1.5;
 const LIMPIEZA_TEXTO_MS = 1200;
 
 const VELOCIDADES_AUDIO = {
-    BAJA: 1.0,
-    MEDIA: 2.4,
-    ALTA: 3.8
+    BAJA: 0.9,
+    MEDIA: 1.75,
+    ALTA: 2.85
+};
+
+const VOLUMENES_AUDIO = {
+    BAJA: 0.28,
+    MEDIA: 0.58,
+    ALTA: 0.95
 };
 
 const DATOS = {
@@ -30,7 +35,7 @@ const DATOS = {
         horas: 7.55,
         rango: "85–100",
         registros: 9776,
-        color: "#67c7ce",
+        color: "#2ecc71",
         porcentaje: 100
     }
 };
@@ -65,7 +70,7 @@ audioTeclado.loop = true;
 audioTeclado.preload = "auto";
 
 if ("preservesPitch" in audioTeclado) {
-    audioTeclado.preservesPitch = true;
+    audioTeclado.preservesPitch = false;
 }
 
 function mostrarEstado(mensaje, color = "#67c7ce") {
@@ -139,11 +144,28 @@ function calcular() {
     };
 }
 
+function calcularParametrosDinero(nivel, ritmo) {
+    const factorRitmo = Math.min(1, Math.max(0, ritmo / 8));
+    const baseVel = VELOCIDADES_AUDIO[nivel] ?? 1.0;
+    const baseVol = VOLUMENES_AUDIO[nivel] ?? 0.35;
+
+    const velocidad = Math.min(
+        3.6,
+        Math.max(0.75, baseVel * 0.75 + (0.75 + factorRitmo * 2.4) * 0.25)
+    );
+    const volumen = Math.min(
+        1.0,
+        Math.max(0.18, baseVol * 0.7 + (0.2 + factorRitmo * 0.8) * 0.3)
+    );
+
+    return { velocidad, volumen };
+}
+
 function detenerAudio() {
     audioTeclado.pause();
 }
 
-function intentarReproducirAudio() {
+function intentarReproducirAudio(colorIndicador = "#67c7ce") {
     if (!sonidoActivo || nivelActual === "DETENIDO") {
         return;
     }
@@ -166,7 +188,10 @@ function intentarReproducirAudio() {
     if (resultado && typeof resultado.then === "function") {
         resultado
             .then(() => {
-                mostrarEstado("Sonido de teclado activo");
+                mostrarEstado(
+                    "Sonido de dinero activo (mayor ganancia a mayor productividad)",
+                    colorIndicador
+                );
             })
             .catch(error => {
                 if (error.name !== "AbortError") {
@@ -188,21 +213,19 @@ function intentarReproducirAudio() {
     }
 }
 
-function actualizarAudioTeclado(nivel) {
+function actualizarAudioDinero(nivel, ritmo = 0) {
     if (!sonidoActivo || nivel === "DETENIDO") {
         detenerAudio();
         return;
     }
 
-    const velocidad = VELOCIDADES_AUDIO[nivel];
-
-    if (velocidad === undefined) {
-        return;
-    }
+    const { velocidad, volumen } = calcularParametrosDinero(nivel, ritmo);
 
     audioTeclado.playbackRate = velocidad;
+    audioTeclado.volume = volumen;
 
-    intentarReproducirAudio();
+    const colorEstado = DATOS[nivel] ? DATOS[nivel].color : "#67c7ce";
+    intentarReproducirAudio(colorEstado);
 }
 
 function actualizar() {
@@ -218,6 +241,9 @@ function actualizar() {
         elementos.nivel.style.color = "#a4a9c4";
 
         elementos.sueno.textContent = "-- horas";
+        elementos.sueno.style.color = "#67c7ce";
+
+        elementos.ritmo.style.color = "#eceaf4";
         elementos.rango.textContent = "Sin actividad";
 
         elementos.registros.textContent =
@@ -228,14 +254,24 @@ function actualizar() {
             "asociado a distintos niveles de productividad.";
 
         elementos.progreso.style.width = "0%";
+        elementos.entrada.style.borderColor = "#353b61";
+
+        if (sonidoActivo) {
+            elementos.botonSonido.style.color = "#67c7ce";
+            mostrarEstado("Visualización interactiva lista", "#67c7ce");
+        }
     } else {
         const datos = DATOS[nivel];
+        const esAlta = nivel === "ALTA";
 
         elementos.nivel.textContent = nivel;
         elementos.nivel.style.color = datos.color;
 
         elementos.sueno.textContent =
             `${datos.horas.toFixed(2)} horas`;
+        elementos.sueno.style.color = esAlta ? datos.color : "#67c7ce";
+
+        elementos.ritmo.style.color = esAlta ? datos.color : "#eceaf4";
 
         elementos.rango.textContent =
             `Productividad del dataset: ${datos.rango}`;
@@ -254,10 +290,20 @@ function actualizar() {
 
         elementos.progreso.style.backgroundColor =
             datos.color;
+
+        elementos.entrada.style.borderColor = esAlta ? datos.color : "#67c7ce";
+
+        if (sonidoActivo) {
+            elementos.botonSonido.style.color = esAlta ? datos.color : "#67c7ce";
+            mostrarEstado(
+                `Productividad ${nivel.toLowerCase()} · Sonido de dinero activo`,
+                esAlta ? datos.color : "#67c7ce"
+            );
+        }
     }
 
     nivelActual = nivel;
-    actualizarAudioTeclado(nivel);
+    actualizarAudioDinero(nivel, ritmo);
 }
 
 elementos.entrada.addEventListener("keydown", evento => {
@@ -294,11 +340,7 @@ elementos.entrada.addEventListener("keydown", evento => {
                     : "ALTA";
 
         nivelActual = nivelEstimado;
-
-        audioTeclado.playbackRate =
-            VELOCIDADES_AUDIO[nivelEstimado];
-
-        intentarReproducirAudio();
+        actualizarAudioDinero(nivelEstimado, ritmoEstimado);
     }
 });
 
@@ -332,13 +374,17 @@ elementos.botonSonido.addEventListener("click", () => {
         ? "Sonido: ACTIVADO"
         : "Sonido: DESACTIVADO";
 
+    const colorActivo =
+        nivelActual === "ALTA" ? DATOS.ALTA.color : "#67c7ce";
+
     elementos.botonSonido.style.color = sonidoActivo
-        ? "#67c7ce"
+        ? colorActivo
         : "#a4a9c4";
 
     if (sonidoActivo) {
-        mostrarEstado("Sonido habilitado");
-        actualizarAudioTeclado(nivelActual);
+        mostrarEstado("Sonido de dinero habilitado", colorActivo);
+        const resultado = calcular();
+        actualizarAudioDinero(resultado.nivel, resultado.ritmo);
     } else {
         detenerAudio();
         mostrarEstado("Sonido desactivado", "#a4a9c4");
@@ -349,7 +395,7 @@ elementos.botonSonido.addEventListener("click", () => {
 
 audioTeclado.addEventListener("error", () => {
     mostrarEstado(
-        "Error: comprueba el archivo teclado.mp3",
+        "Error: comprueba el archivo audio.mp3",
         "#e8705f"
     );
 });
