@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#151933">
+    <title>La paradoja del descanso - E2</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="aplicacion">
+        <header class="encabezado">
+            <h1>LA PARADOJA DEL DESCANSO</h1>
+
+            <p class="subtitulo">
+                ¿Cuánto descanso hay detrás de tu productividad?
+            </p>
+
+            <p class="estado" id="estado">
+                ● Visualización interactiva lista
+            </p>
+        </header>
+
+        <section class="paneles">
+            <article class="panel">
+                <div class="principal">
+                    <h2>PRODUCTIVIDAD SIMULADA</h2>
+
+                    <div class="valor-grande productividad" id="nivel">
+                        DETENIDO
+                    </div>
+
+                    <p class="detalle" id="rango">
+                        Sin actividad
+                    </p>
+
+                    <div class="progreso">
+                        <div class="progreso-relleno" id="progreso"></div>
+                    </div>
+                </div>
+
+                <div class="secundario">
+                    <div class="linea"></div>
+
+                    <div class="fila-ritmo">
+                        <span>RITMO DE ESCRITURA</span>
+                        <strong id="ritmo">0.0 teclas/s</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="panel">
+                <div class="principal">
+                    <h2>DESCANSO PROMEDIO ASOCIADO</h2>
+
+                    <div class="valor-grande descanso" id="sueno">
+                        -- horas
+                    </div>
+
+                    <p class="detalle" id="registros">
+                        30.000 registros sintéticos
+                    </p>
+                </div>
+
+                <div class="secundario">
+                    <div class="linea"></div>
+
+                    <h3>¿QUÉ SIGNIFICA?</h3>
+
+                    <p class="descripcion" id="descripcion">
+                        Escribe para descubrir el descanso promedio
+                        asociado a distintos niveles de productividad.
+                    </p>
+                </div>
+            </article>
+        </section>
+
+        <footer class="pie">
+            <div class="separador"></div>
+
+            <label for="entrada">
+                ESCRIBE AQUÍ PARA ACTIVAR LA VISUALIZACIÓN
+            </label>
+
+            <div class="controles">
+                <input
+                    id="entrada"
+                    type="text"
+                    placeholder="Comienza a escribir..."
+                    autocomplete="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    aria-label="Escribe para medir tu ritmo"
+                >
+
+                <button id="boton-sonido" type="button">
+                    Sonido: ACTIVADO
+                </button>
+            </div>
+
+            <p class="fuente">
+                Fuente: Work Productivity · 30.000 registros sintéticos ·
+                La escritura simula productividad, no mide el sueño personal.
+            </p>
+        </footer>
+    </main>
+
+    <audio
+        id="audio-teclado"
+        src="./audio.mp3"
+        preload="auto"
+        loop
+    ></audio>
+</body>
+</html>

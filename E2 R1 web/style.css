@@ -1,3 +1,4 @@
+
 :root {
     --fondo: #151933;
     --panel: #1e2344;
@@ -7,7 +8,6 @@
     --secundario: #a4a9c4;
     --amarillo: #f2b544;
     --turquesa: #67c7ce;
-    --verde: #2ecc71;
     --rosa: #e88f9c;
     --rojo: #e8705f;
 }
@@ -61,7 +61,6 @@ h1 {
     font-size: 12px;
     font-weight: 700;
     color: var(--turquesa);
-    transition: color 180ms ease;
 }
 
 .paneles {
@@ -170,7 +169,6 @@ h1 {
     font-size: 19px;
     font-weight: 700;
     white-space: nowrap;
-    transition: color 180ms ease;
 }
 
 .secundario h3 {
@@ -239,7 +237,6 @@ h1 {
     font: 12px "Segoe UI", Arial, sans-serif;
     font-weight: 700;
     cursor: pointer;
-    transition: color 180ms ease;
 }
 
 #boton-sonido:hover {

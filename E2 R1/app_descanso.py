@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from collections import deque
 import time
@@ -15,7 +16,6 @@ TEXTO = "#eceaf4"
 SECUNDARIO = "#a4a9c4"
 AMARILLO = "#f2b544"
 TURQUESA = "#67c7ce"
-VERDE = "#2ecc71"
 ROSA = "#e88f9c"
 ROJO = "#e8705f"
 
@@ -24,15 +24,9 @@ TIEMPO_PARADA = 1.5
 LIMPIEZA_TEXTO_MS = 1200
 
 VELOCIDADES_AUDIO = {
-    "BAJA": 0.9,
-    "MEDIA": 1.75,
-    "ALTA": 2.85
-}
-
-VOLUMENES_AUDIO = {
-    "BAJA": 0.28,
-    "MEDIA": 0.58,
-    "ALTA": 0.95
+    "BAJA": 1.0,
+    "MEDIA": 2.4,
+    "ALTA": 3.8
 }
 
 ARCHIVO_AUDIO = os.path.join(
@@ -60,7 +54,7 @@ DATOS = {
         "rango": "85–100",
         "registros": 9776,
         "comando": "3",
-        "color": VERDE
+        "color": TURQUESA
     }
 }
 
@@ -743,7 +737,7 @@ class Aplicacion:
                     muestras_ajustadas
                 )
 
-                sonido.set_volume(VOLUMENES_AUDIO.get(nivel, 0.5))
+                sonido.set_volume(0.35)
                 self.sonidos[nivel] = sonido
 
             self.canal_audio = pygame.mixer.Channel(0)
@@ -756,7 +750,7 @@ class Aplicacion:
                 error
             )
 
-    def reproducir_sonido(self, nivel, ritmo=0.0):
+    def reproducir_sonido(self, nivel):
         if self.canal_audio is None:
             return
 
@@ -770,10 +764,6 @@ class Aplicacion:
         sonido = self.sonidos.get(nivel)
 
         if sonido is not None:
-            factor_ritmo = min(1.0, max(0.0, ritmo / 8.0))
-            vol_base = VOLUMENES_AUDIO.get(nivel, 0.5)
-            volumen = min(1.0, max(0.18, vol_base * 0.7 + (0.2 + factor_ritmo * 0.8) * 0.3))
-            sonido.set_volume(volumen)
             self.canal_audio.play(
                 sonido,
                 loops=-1
@@ -859,12 +849,7 @@ class Aplicacion:
             )
 
             self.valor_sueno.config(
-                text="-- horas",
-                fg=TURQUESA
-            )
-
-            self.valor_ritmo.config(
-                fg=TEXTO
+                text="-- horas"
             )
 
             self.valor_rango.config(
@@ -883,13 +868,9 @@ class Aplicacion:
                 )
             )
 
-            if self.sonido_activo:
-                self.boton_sonido.config(fg=TURQUESA)
-
         else:
             datos = DATOS[nivel]
             comando = datos["comando"]
-            es_alta = nivel == "ALTA"
 
             self.valor_nivel.config(
                 text=nivel,
@@ -897,18 +878,8 @@ class Aplicacion:
             )
 
             self.valor_sueno.config(
-                text=f'{datos["horas"]:.2f} horas',
-                fg=datos["color"] if es_alta else TURQUESA
+                text=f'{datos["horas"]:.2f} horas'
             )
-
-            self.valor_ritmo.config(
-                fg=datos["color"] if es_alta else TEXTO
-            )
-
-            if self.sonido_activo:
-                self.boton_sonido.config(
-                    fg=datos["color"] if es_alta else TURQUESA
-                )
 
             self.valor_rango.config(
                 text=(
@@ -933,18 +904,10 @@ class Aplicacion:
                 )
             )
 
-            if self.sonido_activo and self.canal_audio is not None:
-                sonido_actual = self.sonidos.get(nivel)
-                if sonido_actual is not None:
-                    factor_ritmo = min(1.0, max(0.0, ritmo / 8.0))
-                    vol_base = VOLUMENES_AUDIO.get(nivel, 0.5)
-                    volumen = min(1.0, max(0.18, vol_base * 0.7 + (0.2 + factor_ritmo * 0.8) * 0.3))
-                    sonido_actual.set_volume(volumen)
-
         if nivel != self.nivel:
             self.nivel = nivel
 
-            self.reproducir_sonido(nivel, ritmo)
+            self.reproducir_sonido(nivel)
             self.enviar(comando)
             self.actualizar_barra()
 
@@ -959,12 +922,6 @@ class Aplicacion:
     def alternar_sonido(self):
         self.sonido_activo = not self.sonido_activo
 
-        color_activo = (
-            DATOS["ALTA"]["color"]
-            if self.nivel == "ALTA"
-            else TURQUESA
-        )
-
         self.boton_sonido.config(
             text=(
                 "Sonido: ACTIVADO"
@@ -972,7 +929,7 @@ class Aplicacion:
                 else "Sonido: DESACTIVADO"
             ),
             fg=(
-                color_activo
+                TURQUESA
                 if self.sonido_activo
                 else SECUNDARIO
             )
