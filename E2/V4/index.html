@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La paradoja del descanso</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+    <header class="header">
+        <h1>
+            Dormir más se asocia con una<br>
+            mayor productividad, <em>sin importar la edad</em>
+        </h1>
+
+        <div class="settings">
+            <button id="menuButton"
+                    class="menu-button"
+                    aria-label="Opciones"
+                    aria-expanded="false"
+                    type="button">⋮</button>
+
+            <div id="settingsMenu" class="settings-menu" hidden>
+                <button id="motorButton" type="button">
+                    Motor: activado
+                </button>
+                <button id="soundButton" type="button">
+                    Sonido: activado
+                </button>
+                <button id="resetButton" type="button">
+                    Reiniciar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="metrics-grid">
+
+            <article class="panel productivity-panel">
+                <h2>Productividad individual simulada</h2>
+
+                <div class="metric-display">
+                    <div class="metric-number">
+                        <span id="prodValue">—</span>
+                        <small>/ 100</small>
+                    </div>
+                </div>
+
+                <div class="bar-section">
+                    <div class="progress">
+                        <div id="prodBar"></div>
+                        <div class="progress-segments"></div>
+                    </div>
+
+                    <div class="progress-labels">
+                        <span>0</span>
+                        <strong id="prodLevel">Sin actividad</strong>
+                        <span>100</span>
+                    </div>
+                </div>
+
+                <div class="productivity-bottom"></div>
+            </article>
+
+            <article class="panel sleep-panel">
+                <h2>Descanso promedio asociado</h2>
+
+                <div class="metric-display sleep-display">
+                    <div class="sleep-number">
+                        <span id="sleepValue">—</span>
+                        <small>horas</small>
+                    </div>
+
+                    <div class="sleep-visual">
+                        <svg viewBox="0 0 160 100" aria-hidden="true">
+                            <path
+                                d="M65 10 A39 39 0 1 0 100 76 A43 43 0 0 1 65 10"
+                                fill="currentColor">
+                            </path>
+
+                            <g stroke="#f2b544"
+                               stroke-width="3"
+                               stroke-linecap="round">
+                                <path d="M112 12 v16 M104 20 h16"/>
+                                <path d="M137 40 v12 M131 46 h12"/>
+                                <path d="M93 4 v8 M89 8 h8"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="bar-section">
+                    <div class="progress sleep-progress">
+                        <div id="sleepBar"></div>
+                        <div class="progress-segments"></div>
+                    </div>
+
+                    <div class="progress-labels sleep-scale">
+                        <span>4 h</span>
+                        <span>6,5 h</span>
+                        <span>9 h</span>
+                    </div>
+                </div>
+
+                <div class="sleep-explanation">
+                    <p id="sleepDescription">
+                        Descubre la relación entre tu productividad
+                        y el descanso.
+                    </p>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="writing-panel">
+            <textarea
+                id="typingInput"
+                aria-label="Área de escritura"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+                autofocus
+            ></textarea>
+
+            <div id="writingOverlay" class="writing-overlay">
+                <svg viewBox="0 0 64 40"
+                     class="keyboard-icon"
+                     aria-hidden="true">
+
+                    <rect x="2" y="2"
+                          width="60" height="36"
+                          rx="6"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.5"/>
+
+                    <g fill="currentColor">
+                        <rect x="9" y="9" width="6" height="5" rx="1"/>
+                        <rect x="19" y="9" width="6" height="5" rx="1"/>
+                        <rect x="29" y="9" width="6" height="5" rx="1"/>
+                        <rect x="39" y="9" width="6" height="5" rx="1"/>
+                        <rect x="49" y="9" width="6" height="5" rx="1"/>
+
+                        <rect x="9" y="18" width="6" height="5" rx="1"/>
+                        <rect x="19" y="18" width="6" height="5" rx="1"/>
+                        <rect x="29" y="18" width="6" height="5" rx="1"/>
+                        <rect x="39" y="18" width="6" height="5" rx="1"/>
+                        <rect x="49" y="18" width="6" height="5" rx="1"/>
+
+                        <rect x="16" y="27" width="32" height="5" rx="1"/>
+                    </g>
+                </svg>
+
+                <h2>Comienza a escribir</h2>
+
+                <p>
+                    Descubre la relación entre tu productividad
+                    y el descanso.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div>
+            <strong>Fuente:</strong>
+            Work Productivity &amp; Burnout Risk Dataset (Kaggle)
+            · 30.000 registros sintéticos.
+            <br>
+            La escritura simula productividad, no mide el sueño personal.
+            Correlación ≠ causalidad.
+        </div>
+
+        <div class="footer-status">
+            <span id="arduinoStatus"
+                  role="status"
+                  data-connected="false">
+                Arduino desconectado
+            </span>
+            <span>Grupo 22 · IIC2026</span>
+        </div>
+    </footer>
+</div>
+
+<audio id="workAudio"
+       src="media/audio.mp3"
+       preload="auto">
+</audio>
+
+<script src="app.js"></script>
+
+</body>
+</html>
