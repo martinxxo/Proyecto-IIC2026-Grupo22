@@ -198,3 +198,125 @@
 <script src="app.js"></script>
 </body>
 </html>
+
+<script src="./arduino.js"></script>
+
+<script>
+(() => {
+    "use strict";
+
+    const originalFetch = window.fetch.bind(window);
+
+    function jsonResponse(data) {
+        return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
+
+    window.fetch = async function(input, options = {}) {
+        const address = input instanceof Request
+            ? input.url
+            : String(input);
+
+        const url = new URL(address, window.location.href);
+
+        if (url.pathname.endsWith("/api/status")) {
+            return jsonResponse({
+                connected: Arduino.isConnected(),
+                port: Arduino.isConnected() ? "USB" : null
+            });
+        }
+
+        if (url.pathname.endsWith("/api/command")) {
+            try {
+                const body = input instanceof Request
+                    ? await input.clone().text()
+                    : options.body;
+
+                const data = JSON.parse(body || "{}");
+                const command = String(data.command);
+
+                if (["0", "1", "2", "3"].includes(command)) {
+                    if (document.hidden) {
+                        await Arduino.stop();
+                    } else {
+                        await Arduino.send(command);
+                    }
+
+                    return jsonResponse({
+                        ok: true,
+                        connected: Arduino.isConnected(),
+                        port: Arduino.isConnected() ? "USB" : null
+                    });
+                }
+            } catch (error) {
+                console.warn("Error Arduino:", error);
+            }
+
+            return jsonResponse({
+                ok: false,
+                connected: Arduino.isConnected()
+            });
+        }
+
+        return originalFetch(input, options);
+    };
+
+    function updateArduinoStatus(connected) {
+        const status = document.getElementById("arduinoStatus");
+
+        if (status) {
+            status.textContent = connected
+                ? "● Arduino conectado"
+                : "● Arduino desconectado";
+
+            status.classList.toggle("connected", connected);
+            status.dataset.connected = String(connected);
+        }
+    }
+
+    Arduino.onStatusChange(updateArduinoStatus);
+
+    const levelElement = document.getElementById("nivel");
+
+    if (levelElement) {
+        const commands = {
+            "DETENIDO": "0",
+            "BAJA": "1",
+            "MEDIA": "2",
+            "ALTA": "3"
+        };
+
+        setInterval(() => {
+            if (!Arduino.isConnected()) return;
+
+            if (document.hidden) {
+                Arduino.stop();
+                return;
+            }
+
+            const level = levelElement.textContent
+                .trim()
+                .toUpperCase();
+
+            const command = commands[level] || "0";
+
+            Arduino.send(command);
+        }, 400);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            Arduino.stop();
+        }
+    });
+
+    window.addEventListener("pagehide", () => {
+        Arduino.stop();
+    });
+
+})();
+</script>

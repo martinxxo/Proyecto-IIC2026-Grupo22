@@ -1,4 +1,3 @@
-
 "use strict";
 
 const DATA = {
@@ -179,7 +178,6 @@ function canPlayCoins() {
         motorEnabled &&
         sleepConfirmed &&
         exerciseConfirmed &&
-        bridgeConnected &&
         motorCommand() !== "0"
     );
 }
